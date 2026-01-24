@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { copyToClipboard } from "@utils/clipboard";
 import { classes } from "@utils/misc";
 import { ModalProps } from "@utils/modal";
-import { copyToClipboard } from "@utils/clipboard";
-import { findByCode, findByCodeLazy, findByProps, findComponentByCodeLazy } from "@webpack";
+import { findByCode, findByCodeLazy, findComponentByCodeLazy, findCssClasses } from "@webpack";
 import { ContextMenuApi, FluxDispatcher, Menu, NavigationRouter, React } from "@webpack/common";
 
 import noteHandler from "../../NoteHandler";
@@ -28,7 +28,7 @@ export const RenderMessage = ({
     closeModal?: () => void;
 }) => {
     const ChannelMessage = findComponentByCodeLazy("Message must not be a thread");
-    const { message, groupStart, cozyMessage } = findByProps("cozyMessage");
+    const { message, groupStart, cozyMessage } = findCssClasses("message", "groupStart", "cozyMessage");
     const User = findByCode("isVerifiedBot(){");
     const Message = findByCode("isEdited(){");
     const Channel = findByCodeLazy("computeLurkerPermissionsAllowList");
@@ -166,6 +166,7 @@ const NoteContextMenu = (
                         if (key !== notebook) {
                             return (
                                 <Menu.MenuItem
+                                    key={key}
                                     label={`Move to ${key}`}
                                     id={key}
                                     action={() => {

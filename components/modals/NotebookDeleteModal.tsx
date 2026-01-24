@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { BaseText } from "@components/BaseText";
+import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize } from "@utils/modal";
-import { Button, React, Text } from "@webpack/common";
+import { React } from "@webpack/common";
 
 import noteHandler from "../../NoteHandler";
 import Error from "./Error";
@@ -27,7 +29,7 @@ export default ({ onClose, notebook, onChangeTab, ...props }: ModalProps & { onC
             className="vc-delete-notebook"
             size={ModalSize.LARGE}>
             <ModalHeader>
-                <Text tag="h3">Confirm Deletion</Text>
+                <BaseText tag="h3">Confirm Deletion</BaseText>
                 <ModalCloseButton onClick={onClose} />
             </ModalHeader>
             <ModalContent>
@@ -35,6 +37,7 @@ export default ({ onClose, notebook, onChangeTab, ...props }: ModalProps & { onC
                     {notes && Object.keys(notes).length > 0 ? (
                         Object.values(notes).map(note => (
                             <RenderMessage
+                                key={note.id}
                                 note={note}
                                 notebook={notebook}
                                 fromDeleteModal={true} />
@@ -46,7 +49,7 @@ export default ({ onClose, notebook, onChangeTab, ...props }: ModalProps & { onC
             </ModalContent>
             <ModalFooter>
                 <Button
-                    color={Button.Colors.RED}
+                    variant="dangerPrimary"
                     onClick={handleDelete}
                 >
                     DELETE

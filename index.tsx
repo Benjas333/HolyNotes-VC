@@ -25,9 +25,9 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { classes } from "@utils/misc";
 import { openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
+import { Message } from "@vencord/discord-types";
 import { findByProps, findExportedComponentLazy } from "@webpack";
 import { ChannelStore, Menu } from "@webpack/common";
-import { Message } from "@vencord/discord-types";
 
 import { Popover as NoteButtonPopover, Popover } from "./components/icons/NoteButton";
 import { NoteModal } from "./components/modals/Notebook";
@@ -41,6 +41,7 @@ const messageContextMenuPatch: NavContextMenuPatchCallback = async (children, { 
         <Menu.MenuItem label="Add Message To" id="add-message-to-note">
             {Object.keys(noteHandler.getAllNotes()).map((notebook: string, index: number) => (
                 <Menu.MenuItem
+                    key={notebook}
                     label={notebook}
                     id={notebook}
                     action={() => noteHandler.addNote(message, notebook)}
@@ -96,13 +97,13 @@ export default definePlugin({
     toolbarAction(e) {
         if (Array.isArray(e.toolbar))
             return e.toolbar.push(
-                <ErrorBoundary noop={true}>
+                <ErrorBoundary key={this.name} noop={true}>
                     <ToolBarHeader />
                 </ErrorBoundary>
             );
 
         e.toolbar = [
-            <ErrorBoundary noop={true}>
+            <ErrorBoundary key={this.name} noop={true}>
                 <ToolBarHeader />
             </ErrorBoundary>,
             e.toolbar,
@@ -119,9 +120,8 @@ export default definePlugin({
                 message: message,
                 channel: ChannelStore.getChannel(message.channel_id),
                 onClick: () => noteHandler.addNote(message, "Main")
-
             };
-        });
+        }, NoteButtonPopover);
     },
 
     async stop() {

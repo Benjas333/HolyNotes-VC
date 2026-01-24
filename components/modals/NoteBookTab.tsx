@@ -4,9 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Button } from "@components/Button";
 import { classes } from "@utils/misc";
 import { findByCodeLazy } from "@webpack";
-import { Button, Clickable, Menu, Popout, React } from "@webpack/common";
+import { Clickable, Menu, Popout, React } from "@webpack/common";
 
 import { SvgOverFlowIcon } from "../icons/overFlowIcon";
 
@@ -19,6 +20,7 @@ export function NoteBookTabs({ tabs, selectedTabId, onSelectTab }: { tabs: strin
     const [overflowedTabs, setOverflowedTabs] = React.useState<string[]>([]);
     const resizeObserverRef = React.useRef<ResizeObserver | null>(null);
     const [show, setShow] = React.useState(false);
+    const buttonRef = React.useRef(null);
 
     function isNotNullish(value) {
         return value !== null && value !== undefined;
@@ -111,6 +113,7 @@ export function NoteBookTabs({ tabs, selectedTabId, onSelectTab }: { tabs: strin
                 if (!overflowedTabs.includes(tab)) {
                     return (
                         <TabItem
+                            key={tab}
                             id={tab}
                             selected={selectedTabId === tab}
                             ref={(el: HTMLElement | null) => {
@@ -136,13 +139,15 @@ export function NoteBookTabs({ tabs, selectedTabId, onSelectTab }: { tabs: strin
                     position="bottom"
                     align="right"
                     spacing={0}
+                    targetElementRef={buttonRef}
                 >
                     {props => (
                         <Button
                             {...props}
+                            ref={buttonRef}
                             className={"vc-notebook-overflow-chevron"}
-                            size={Button.Sizes.ICON}
-                            look={Button.Looks.BLANK}
+                            size="iconOnly"
+                            variant="secondary"
                             onClick={() => setShow(v => !v)}
                         >
                             <SvgOverFlowIcon className={classes(overflowIcon)} width={16} height={16}/>
