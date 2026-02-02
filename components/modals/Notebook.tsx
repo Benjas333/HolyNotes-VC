@@ -9,7 +9,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { classes } from "@utils/misc";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { findByProps } from "@webpack";
+import { findCssClasses } from "@webpack";
 import { ContextMenuApi, FluxDispatcher, Menu, React, TextInput } from "@webpack/common";
 
 import noteHandler from "../../NoteHandler";
@@ -34,6 +34,7 @@ const renderNotebook = ({
 }) => {
     const messageArray = Object.values(notes).map(note => (
         <RenderMessage
+            key={note.id}
             note={note}
             notebook={notebook}
             updateParent={updateParent}
@@ -65,7 +66,13 @@ export const NoteModal = (props: ModalProps & { onClose: () => void; }) => {
     const [sortDirection, setSortDirection] = React.useState(true);
     const [currentNotebook, setCurrentNotebook] = React.useState("Main");
 
-    const { quickSelect, quickSelectLabel, quickSelectQuick, quickSelectValue, quickSelectArrow } = findByProps("quickSelect");
+    const {
+        quickSelect,
+        quickSelectLabel,
+        quickSelectClick,
+        quickSelectValue,
+        quickSelectArrow
+    } = findCssClasses("quickSelect", "quickSelectLabel", "quickSelectValue", "quickSelectArrow", "quickSelectClick");
 
     const forceUpdate = React.useReducer(() => ({}), {})[1] as () => void;
 
@@ -161,7 +168,10 @@ export const NoteModal = (props: ModalProps & { onClose: () => void; }) => {
                             }}
                         >
                             <BaseText className={quickSelectLabel}>Change Sorting:</BaseText>
-                            <Flex alignItems="center" className={quickSelectQuick}>
+                            <Flex
+                                alignItems="center"
+                                className={quickSelectClick} // TODO: confirmar
+                            >
                                 <BaseText className={quickSelectValue}>
                                     {sortDirection ? "Ascending" : "Descending"} /{" "}
                                     {sortType ? "Date Added" : "Message Date"}

@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { BaseText } from "@components/BaseText";
+import { Button } from "@components/Button";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalProps, ModalRoot, ModalSize } from "@utils/modal";
-import { Button, React, Text, TextInput } from "@webpack/common";
+import { React, TextInput } from "@webpack/common";
 
 import noteHandler from "../../NoteHandler";
 
@@ -21,7 +23,7 @@ export default (props: ModalProps & { onClose: () => void; }) => {
         <div>
             <ModalRoot className="vc-create-notebook" size={ModalSize.SMALL} {...props}>
                 <ModalHeader className="vc-notebook-header">
-                    <Text tag="h3">Create Notebook</Text>
+                    <BaseText tag="h3">Create Notebook</BaseText>
                     <ModalCloseButton onClick={props.onClose} />
                 </ModalHeader>
                 <ModalContent>
@@ -32,7 +34,7 @@ export default (props: ModalProps & { onClose: () => void; }) => {
                         style={{ marginBottom: "10px" }} />
                 </ModalContent>
                 <ModalFooter>
-                    <Button onClick={handleCreateNotebook} color={Button.Colors.GREEN}>Create Notebook</Button>
+                    <Button onClick={handleCreateNotebook} variant="positive">Create Notebook</Button>
                 </ModalFooter>
             </ModalRoot>
         </div>

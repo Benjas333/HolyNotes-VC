@@ -5,6 +5,7 @@
  */
 
 import { classes } from "@utils/misc";
+import type { JSX } from "react";
 
 export default ({ className }: { className?: string; }): JSX.Element => (
     <svg
