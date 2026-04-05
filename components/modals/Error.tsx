@@ -4,11 +4,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { findByProps } from "@webpack";
+import { findCssClasses } from "@webpack";
 
 
 export default ({ error }: { error?: Error; } = {}) => {
-    const classes = findByProps("emptyResultsWrap");
+    const classes = findCssClasses(
+        "emptyResultsWrap",
+        "emptyResultsContent",
+        "errorImage",
+        "emptyResultsText",
+        "noResultsImage",
+        "alt",
+    );
 
     if (error) {
         // Error
