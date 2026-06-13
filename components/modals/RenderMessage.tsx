@@ -28,6 +28,7 @@ export const RenderMessage = ({
     fromDeleteModal: boolean;
     closeModal?: () => void;
 }) => {
+    // TODO: clean
     const ChannelMessage = findComponentByCodeLazy(
         // Original
         // "Message must not be a thread",
