@@ -75,12 +75,12 @@ export default definePlugin({
 
     patches: [
         {
-            find: ".controlButtonWrapper,",
+            find: /toolbar:\i,mobileToolbar:\i/,
             replacement: {
                 match: /(function \i\(\i\){)(.{1,200}toolbar.{1,100}mobileToolbar)/,
                 replace: "$1$self.toolbarAction(arguments[0]);$2"
             }
-        }
+        },
     ],
 
     toolboxActions: {
