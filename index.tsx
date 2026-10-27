@@ -25,7 +25,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { classes } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { Message } from "@vencord/discord-types";
-import { findByProps, findExportedComponentLazy } from "@webpack";
+import { findCssClasses, findExportedComponentLazy } from "@webpack";
 import { ChannelStore, Menu, openModal } from "@webpack/common";
 
 import { Popover as NoteButtonPopover, Popover } from "./components/icons/NoteButton";
@@ -51,7 +51,7 @@ const messageContextMenuPatch: NavContextMenuPatchCallback = async (children, { 
 };
 
 function ToolBarHeader() {
-    const iconClasses = findByProps("iconWrapper", "clickable");
+    const iconClasses = findCssClasses("iconWrapper", "clickable");
 
     return (
         <ErrorBoundary noop={true}>
@@ -93,9 +93,9 @@ export default definePlugin({
         "message": messageContextMenuPatch
     },
 
-    toolbarAction(e) {
+    toolbarAction(e: { toolbar: React.ReactNode[] | React.ReactNode; }) {
         if (Array.isArray(e.toolbar))
-            return e.toolbar.push(
+            return e.toolbar.unshift(
                 <ErrorBoundary key={this.name} noop={true}>
                     <ToolBarHeader />
                 </ErrorBoundary>
